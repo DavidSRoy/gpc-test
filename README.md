@@ -16,6 +16,14 @@ It verifies whether a visiting browser sends the `Sec-GPC: 1` HTTP header.
   user-agent, and whether `Sec-GPC` was present). `GET /gpc-test/log`
   displays the recent entries, most recent first, so repeated reloads can be
   correlated by time.
+- **Iframe coverage** — the main page embeds two iframes, each rendering its
+  own verdict from the headers of its own request: a same-origin iframe
+  (`/gpc-test/frame` on the same host) and a cross-origin iframe (the same
+  code deployed as a second Worker on a different host,
+  `gpc-test-frame.davidsroy.workers.dev`). The page labels all three —
+  "Main page", "Same-origin iframe", "Cross-origin iframe" — so one
+  screenshot shows all three verdicts at once. Log entries are tagged
+  `main:<host>` or `frame:<host>` so frame requests can be told apart.
 - **No client-side tricks** — the verdict comes only from headers the server
   actually received. `navigator.globalPrivacyControl` is shown as a
   secondary FYI only.
@@ -46,6 +54,11 @@ Two equivalent implementations are included:
 
 The Worker stores one KV key per visit, so rapid reloads cannot overwrite
 or merge each other's log entries.
+
+For the cross-origin iframe, deploy the same `worker.js` as a second Worker
+with a different name (the live demo uses `gpc-test-frame`) with the same
+`GPC_LOG` KV binding, and point `CROSS_ORIGIN_FRAME_URL` in `worker.js` at
+its `/gpc-test/frame` URL.
 
 ### Node.js (`server.js`) — zero dependencies
 
