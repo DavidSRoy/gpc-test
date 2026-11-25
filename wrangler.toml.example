@@ -1,0 +1,13 @@
+name = "gpc-test"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Create first:  wrangler kv namespace create GPC_LOG
+# Then paste its id below and rename this file to wrangler.toml
+[[kv_namespaces]]
+binding = "GPC_LOG"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+# After deploy, your URLs will be:
+#   https://gpc-test.<your-account>.workers.dev/gpc-test
+#   https://gpc-test.<your-account>.workers.dev/gpc-test/log

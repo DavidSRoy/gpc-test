@@ -1,0 +1,4 @@
+node_modules/
+gpc-visits.log
+wrangler.toml
+.dev.vars
