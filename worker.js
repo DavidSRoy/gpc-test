@@ -27,7 +27,7 @@ table{border-collapse:collapse;width:100%;font-size:.9rem;word-break:break-all}
 td,th{border:1px solid #ddd;padding:6px 8px;text-align:left;vertical-align:top}
 th{background:#f3f4f6} pre{white-space:pre-wrap;word-break:break-all;background:#f9fafb;padding:12px;border-radius:8px}
 a{color:#2563eb}
-iframe{width:100%;height:210px;border:2px solid #9ca3af;border-radius:12px;background:#fff}
+iframe{width:100%;height:270px;border:2px solid #9ca3af;border-radius:12px;background:#fff}
 .frame-label{font-weight:700;margin-top:24px}
 .host{font-size:.85rem;color:#555;word-break:break-all}
 </style></head><body>${body}</body></html>`;
@@ -58,7 +58,12 @@ export default {
       const body = `
 <div class="host">iframe page served by: ${esc(url.host)}</div>
 <div class="verdict small ${gpc ? 'yes' : 'no'}">Sec-GPC: 1 received: ${gpc ? 'YES' : 'NO'}</div>
-<p>This verdict comes from the headers received for this iframe's own request.</p>`;
+<div class="verdict small" id="js-verdict">navigator.globalPrivacyControl: (evaluating…)</div>
+<p>This verdict comes from the headers received for this iframe's own request. The second box is evaluated live by JavaScript inside this iframe.</p>
+<script>
+document.getElementById('js-verdict').textContent =
+  'navigator.globalPrivacyControl: ' + String(navigator.globalPrivacyControl);
+</script>`;
       return new Response(shell('GPC Test — iframe', body), { headers: HEADERS });
     }
 
